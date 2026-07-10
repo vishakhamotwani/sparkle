@@ -66,6 +66,7 @@ export const braceletStudio: StudioDefinition = {
       category: "bead",
       component: CircleBead,
       tintable: true,
+      stickerable: true,
     },
     "bead-heart": {
       id: "bead-heart",

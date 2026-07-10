@@ -17,6 +17,8 @@ export type AssetDef = {
    * as a shape, and taps on it only recolor it.
    */
   fixed?: boolean;
+  /** Whether emoji stickers can sit on this asset (e.g. only circle beads). */
+  stickerable?: boolean;
 };
 
 export type Slot = {

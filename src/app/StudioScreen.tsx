@@ -52,24 +52,35 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
       return;
     }
     if (tool.emoji) {
-      // Sticker mode: decorate the existing bead, or place one to stick it on.
-      place(
-        existing
-          ? { ...existing, emoji: tool.emoji }
-          : {
-              slotId,
-              assetId: tool.assetId,
-              tint: tool.tint,
-              emoji: tool.emoji,
-            },
+      // Sticker mode: only stickerable assets (circle beads) take stickers.
+      if (existing) {
+        if (studio.assets[existing.assetId].stickerable) {
+          place({ ...existing, emoji: tool.emoji });
+        }
+        return;
+      }
+      // Empty slot: place a stickerable bead to stick it on.
+      const stickerBase = Object.values(studio.assets).find(
+        (a) => a.stickerable && slot.accepts.includes(a.category),
       );
+      if (stickerBase) {
+        place({
+          slotId,
+          assetId: stickerBase.id,
+          tint: tool.tint,
+          emoji: tool.emoji,
+        });
+      }
     } else {
-      // Bead mode: place/recolor, keeping any sticker already there.
+      // Bead mode: place/recolor, keeping a sticker only if the new shape
+      // can carry it.
       place({
         slotId,
         assetId: tool.assetId,
         tint: tool.tint,
-        emoji: existing?.emoji,
+        emoji: studio.assets[tool.assetId].stickerable
+          ? existing?.emoji
+          : undefined,
       });
     }
   };

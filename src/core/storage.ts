@@ -24,15 +24,22 @@ export function loadPlacements(studio: StudioDefinition): Placement[] {
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
     const slotIds = new Set(studio.slots.map((s) => s.id));
-    return parsed.filter(
-      (p): p is Placement =>
-        typeof p === "object" &&
-        p !== null &&
-        typeof (p as Placement).slotId === "string" &&
-        slotIds.has((p as Placement).slotId) &&
-        typeof (p as Placement).assetId === "string" &&
-        (p as Placement).assetId in studio.assets,
-    );
+    return parsed
+      .filter(
+        (p): p is Placement =>
+          typeof p === "object" &&
+          p !== null &&
+          typeof (p as Placement).slotId === "string" &&
+          slotIds.has((p as Placement).slotId) &&
+          typeof (p as Placement).assetId === "string" &&
+          (p as Placement).assetId in studio.assets,
+      )
+      .map((p) =>
+        // Drop stickers that predate the stickerable rule.
+        p.emoji && !studio.assets[p.assetId].stickerable
+          ? { ...p, emoji: undefined }
+          : p,
+      );
   } catch {
     return [];
   }
