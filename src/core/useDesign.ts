@@ -29,7 +29,8 @@ function reducer(state: State, action: Action): State {
       if (
         existing &&
         existing.assetId === placement.assetId &&
-        existing.tint === placement.tint
+        existing.tint === placement.tint &&
+        existing.emoji === placement.emoji
       ) {
         return state;
       }
@@ -61,9 +62,9 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export function useDesign(studioId: string) {
+export function useDesign(studioId: string, initialPlacements: Placement[] = []) {
   const [state, dispatch] = useReducer(reducer, {
-    design: { studioId, placements: [] },
+    design: { studioId, placements: initialPlacements },
     past: [],
   });
 

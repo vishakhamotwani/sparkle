@@ -39,6 +39,7 @@ const braceletString = (
 export const braceletStudio: StudioDefinition = {
   id: "bracelet",
   name: "Bracelet Maker",
+  icon: "📿",
   stage: {
     width: STAGE_SIZE,
     height: STAGE_SIZE,
@@ -80,5 +81,21 @@ export const braceletStudio: StudioDefinition = {
     "#4DD4E8", // aqua
     "#4D96FF", // blue
     "#B983FF", // purple
+    "#FFFFFF", // white
+    "#333333", // black
+    "#FFD700", // gold
+    "#C0C0C0", // silver
+    {
+      rainbow: [
+        "#FF6FB5", // pink
+        "#FF5A5F", // red
+        "#FFA33E", // orange
+        "#FFD93D", // yellow
+        "#6BCB77", // green
+        "#4D96FF", // blue
+        "#B983FF", // purple
+      ],
+    },
   ],
+  stickers: ["✨", "⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀"],
 };

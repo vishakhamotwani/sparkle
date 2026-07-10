@@ -10,3 +10,7 @@ export function getStudio(id: string): StudioDefinition {
   if (!studio) throw new Error(`Unknown studio: ${id}`);
   return studio;
 }
+
+export function allStudios(): StudioDefinition[] {
+  return Object.values(registry);
+}

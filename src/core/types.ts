@@ -30,6 +30,8 @@ export type Placement = {
   slotId: string;
   assetId: string;
   tint?: string;
+  /** Emoji sticker rendered on top of the asset. */
+  emoji?: string;
 };
 
 /** A complete creation — serializable, tiny, and the unit of undo/save/share. */
@@ -42,11 +44,18 @@ export type Design = {
 export type Tool = {
   assetId: string;
   tint: string;
+  /** When set, the tool is in sticker mode: taps add this emoji on top. */
+  emoji: string | null;
 };
+
+/** A plain color, or a rainbow swatch that cycles through colors per tap. */
+export type PaletteItem = string | { rainbow: string[] };
 
 export type StudioDefinition = {
   id: string;
   name: string;
+  /** Emoji shown on the studio's home-screen card. */
+  icon: string;
   stage: {
     width: number;
     height: number;
@@ -55,5 +64,7 @@ export type StudioDefinition = {
   };
   slots: Slot[];
   assets: Record<string, AssetDef>;
-  palette: string[];
+  palette: PaletteItem[];
+  /** Emoji stickers available in the tray. */
+  stickers: string[];
 };
