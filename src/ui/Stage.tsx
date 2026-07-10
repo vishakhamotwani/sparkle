@@ -1,4 +1,5 @@
 import type { Ref } from "react";
+import { ombreId } from "../core/palette";
 import type { Design, Slot, StudioDefinition } from "../core/types";
 
 type StageProps = {
@@ -17,6 +18,10 @@ function slotTransform(slot: Slot): string {
 
 export function Stage({ studio, design, onSlotTap, svgRef }: StageProps) {
   const bySlot = new Map(design.placements.map((p) => [p.slotId, p]));
+  const ombres = studio.palette.filter(
+    (item): item is { ombre: [string, string] } =>
+      typeof item === "object" && "ombre" in item,
+  );
 
   return (
     <svg
@@ -26,6 +31,23 @@ export function Stage({ studio, design, onSlotTap, svgRef }: StageProps) {
       role="img"
       aria-label={studio.name}
     >
+      {ombres.length > 0 && (
+        <defs>
+          {ombres.map(({ ombre: [from, to] }) => (
+            <linearGradient
+              key={ombreId(from, to)}
+              id={ombreId(from, to)}
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+            >
+              <stop offset="0" stopColor={from} />
+              <stop offset="1" stopColor={to} />
+            </linearGradient>
+          ))}
+        </defs>
+      )}
       {studio.stage.background}
       {studio.slots.map((slot) => {
         const placement = bySlot.get(slot.id);

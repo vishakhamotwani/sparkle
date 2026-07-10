@@ -1,5 +1,8 @@
+import { ombreTint } from "../core/palette";
 import type { StudioDefinition, Tool } from "../core/types";
+import { CustomColorSwatch } from "./CustomColorSwatch";
 import { EmojiButton } from "./EmojiButton";
+import { OmbreSwatch } from "./OmbreSwatch";
 import { RainbowSwatch } from "./RainbowSwatch";
 import { ShapeButton } from "./ShapeButton";
 import { Swatch } from "./Swatch";
@@ -20,37 +23,71 @@ export function Tray({ studio, tool, onToolChange }: TrayProps) {
   const pickSticker = (emoji: string) =>
     onToolChange({ ...tool, emoji: tool.emoji === emoji ? null : emoji });
 
+  const inColorMode = tool.emoji === null;
+  const presetTints = new Set<string>();
+  for (const item of studio.palette) {
+    if (typeof item === "string") presetTints.add(item);
+    else if ("ombre" in item) presetTints.add(ombreTint(...item.ombre));
+  }
+
   return (
     <div className="tray">
       <div className="tray-row" role="group" aria-label="Bead shapes">
-        {Object.values(studio.assets).map((asset) => (
-          <ShapeButton
-            key={asset.id}
-            asset={asset}
-            tint={tool.tint}
-            selected={tool.emoji === null && tool.assetId === asset.id}
-            onSelect={pickShape}
-          />
-        ))}
+        {Object.values(studio.assets)
+          .filter((asset) => !asset.fixed)
+          .map((asset) => (
+            <ShapeButton
+              key={asset.id}
+              asset={asset}
+              tint={tool.tint}
+              selected={inColorMode && tool.assetId === asset.id}
+              onSelect={pickShape}
+            />
+          ))}
       </div>
       <div className="tray-row" role="group" aria-label="Colors">
-        {studio.palette.map((item) =>
-          typeof item === "string" ? (
-            <Swatch
-              key={item}
-              color={item}
-              selected={tool.emoji === null && tool.tint === item}
-              onSelect={pickColor}
-            />
-          ) : (
-            <RainbowSwatch
-              key="rainbow"
-              colors={item.rainbow}
+        {studio.palette.map((item) => {
+          if (typeof item === "string") {
+            return (
+              <Swatch
+                key={item}
+                color={item}
+                selected={inColorMode && tool.tint === item}
+                onSelect={pickColor}
+              />
+            );
+          }
+          if ("rainbow" in item) {
+            return (
+              <RainbowSwatch
+                key="rainbow"
+                colors={item.rainbow}
+                currentTint={tool.tint}
+                onSelect={pickColor}
+              />
+            );
+          }
+          if ("ombre" in item) {
+            const [from, to] = item.ombre;
+            return (
+              <OmbreSwatch
+                key={`ombre-${from}-${to}`}
+                from={from}
+                to={to}
+                selected={inColorMode && tool.tint === ombreTint(from, to)}
+                onSelect={pickColor}
+              />
+            );
+          }
+          return (
+            <CustomColorSwatch
+              key="custom"
               currentTint={tool.tint}
+              selected={inColorMode && !presetTints.has(tool.tint)}
               onSelect={pickColor}
             />
-          ),
-        )}
+          );
+        })}
       </div>
       {studio.stickers.length > 0 && (
         <div className="tray-row" role="group" aria-label="Stickers">

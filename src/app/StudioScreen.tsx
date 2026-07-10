@@ -16,12 +16,21 @@ type StudioScreenProps = {
 
 export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
   const studio = getStudio(studioId);
+  const base = studio.initialPlacements ?? [];
+  // Restore the saved design, backfilling scene placements (tassels) that a
+  // save from an older version won't have.
+  const saved = loadPlacements(studio);
+  const initial = [
+    ...saved,
+    ...base.filter((p) => !saved.some((s) => s.slotId === p.slotId)),
+  ];
   const { design, canUndo, place, undo, reset } = useDesign(
     studio.id,
-    loadPlacements(studio),
+    initial,
+    base,
   );
   const [tool, setTool] = useState<Tool>(() => ({
-    assetId: Object.keys(studio.assets)[0],
+    assetId: Object.values(studio.assets).find((a) => !a.fixed)!.id,
     tint: typeof studio.palette[0] === "string" ? studio.palette[0] : "#FF6FB5",
     emoji: null,
   }));
@@ -32,7 +41,16 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
   }, [design]);
 
   const handleSlotTap = (slotId: string) => {
+    const slot = studio.slots.find((s) => s.id === slotId);
+    if (!slot) return;
     const existing = design.placements.find((p) => p.slotId === slotId);
+
+    // Slots that don't take the current tool's asset (tassels): any color
+    // tap just recolors what's there.
+    if (!slot.accepts.includes(studio.assets[tool.assetId].category)) {
+      if (existing && !tool.emoji) place({ ...existing, tint: tool.tint });
+      return;
+    }
     if (tool.emoji) {
       // Sticker mode: decorate the existing bead, or place one to stick it on.
       place(
@@ -62,6 +80,9 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
     }
   };
 
+  const isPristine =
+    JSON.stringify(design.placements) === JSON.stringify(base);
+
   return (
     <StudioShell
       title={studio.name}
@@ -83,7 +104,7 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
           <ToolbarButton
             label="Start over"
             icon="🌈"
-            disabled={design.placements.length === 0}
+            disabled={isPristine}
             onPress={reset}
           />
         </>

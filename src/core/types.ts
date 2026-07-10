@@ -12,6 +12,11 @@ export type AssetDef = {
   category: string;
   component: ComponentType<AssetProps>;
   tintable: boolean;
+  /**
+   * Part of the scene (e.g. tassels) rather than a tray choice: not offered
+   * as a shape, and taps on it only recolor it.
+   */
+  fixed?: boolean;
 };
 
 export type Slot = {
@@ -48,8 +53,15 @@ export type Tool = {
   emoji: string | null;
 };
 
-/** A plain color, or a rainbow swatch that cycles through colors per tap. */
-export type PaletteItem = string | { rainbow: string[] };
+/**
+ * A tray color control: a plain color, a rainbow swatch that cycles through
+ * colors per tap, a two-color ombre preset, or the free color picker.
+ */
+export type PaletteItem =
+  | string
+  | { rainbow: string[] }
+  | { ombre: [string, string] }
+  | { custom: true };
 
 export type StudioDefinition = {
   id: string;
@@ -67,4 +79,9 @@ export type StudioDefinition = {
   palette: PaletteItem[];
   /** Emoji stickers available in the tray. */
   stickers: string[];
+  /**
+   * Placements present in a fresh design (e.g. the bracelet's tassels).
+   * "Start over" returns to these rather than to an empty stage.
+   */
+  initialPlacements?: Placement[];
 };

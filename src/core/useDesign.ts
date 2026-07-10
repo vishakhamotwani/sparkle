@@ -11,7 +11,7 @@ type Action =
   | { type: "PLACE"; placement: Placement }
   | { type: "CLEAR_SLOT"; slotId: string }
   | { type: "UNDO" }
-  | { type: "RESET" };
+  | { type: "RESET"; placements: Placement[] };
 
 function withHistory(state: State, placements: Placement[]): State {
   return {
@@ -56,13 +56,19 @@ function reducer(state: State, action: Action): State {
     }
     case "RESET": {
       // Undoable, so no scary confirmation dialog is needed.
-      if (placements.length === 0) return state;
-      return withHistory(state, []);
+      if (JSON.stringify(placements) === JSON.stringify(action.placements)) {
+        return state;
+      }
+      return withHistory(state, action.placements);
     }
   }
 }
 
-export function useDesign(studioId: string, initialPlacements: Placement[] = []) {
+export function useDesign(
+  studioId: string,
+  initialPlacements: Placement[] = [],
+  basePlacements: Placement[] = [],
+) {
   const [state, dispatch] = useReducer(reducer, {
     design: { studioId, placements: initialPlacements },
     past: [],
@@ -74,6 +80,6 @@ export function useDesign(studioId: string, initialPlacements: Placement[] = [])
     place: (placement: Placement) => dispatch({ type: "PLACE", placement }),
     clearSlot: (slotId: string) => dispatch({ type: "CLEAR_SLOT", slotId }),
     undo: () => dispatch({ type: "UNDO" }),
-    reset: () => dispatch({ type: "RESET" }),
+    reset: () => dispatch({ type: "RESET", placements: basePlacements }),
   };
 }

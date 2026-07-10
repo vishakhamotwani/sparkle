@@ -109,7 +109,9 @@ body {
 .tray-row {
   display: flex;
   gap: 10px;
-  padding: 6px 16px;
+  /* Vertical padding leaves room for the selection ring (4px outline +
+     2px offset + scale-up) inside this scroll container, so it never clips. */
+  padding: 10px 16px;
   overflow-x: auto;
   justify-content: safe center;
 }
@@ -137,6 +139,26 @@ body {
   border-radius: 50%;
   border: 2px solid rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.custom-swatch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  line-height: 1;
+  background: white;
+  cursor: pointer;
+}
+
+.custom-swatch input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .rainbow-swatch {
@@ -325,7 +347,7 @@ body {
     border-radius: 14px;
   }
   .tray-row {
-    padding: 3px 12px;
+    padding: 8px 12px;
   }
   .shell-tray {
     padding-bottom: max(6px, env(safe-area-inset-bottom));
