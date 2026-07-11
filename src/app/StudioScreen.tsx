@@ -24,7 +24,7 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
     ...saved,
     ...base.filter((p) => !saved.some((s) => s.slotId === p.slotId)),
   ];
-  const { design, canUndo, place, undo, reset } = useDesign(
+  const { design, canUndo, place, clearSlot, undo, reset } = useDesign(
     studio.id,
     initial,
     base,
@@ -94,6 +94,20 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
   const isPristine =
     JSON.stringify(design.placements) === JSON.stringify(base);
 
+  const extras = (studio.toggleables ?? []).map(({ slotId, assetId, label }) => {
+    const active = design.placements.some((p) => p.slotId === slotId);
+    return {
+      id: slotId,
+      label: active ? `Remove ${label}` : `Add ${label}`,
+      active,
+      component: studio.assets[assetId].component,
+      onToggle: () =>
+        active
+          ? clearSlot(slotId)
+          : place({ slotId, assetId, tint: tool.tint }),
+    };
+  });
+
   return (
     <StudioShell
       title={studio.name}
@@ -126,9 +140,17 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
           design={design}
           onSlotTap={handleSlotTap}
           svgRef={svgRef}
+          stickerMode={tool.emoji !== null}
         />
       }
-      tray={<Tray studio={studio} tool={tool} onToolChange={setTool} />}
+      tray={
+        <Tray
+          studio={studio}
+          tool={tool}
+          onToolChange={setTool}
+          extras={extras}
+        />
+      }
     />
   );
 }

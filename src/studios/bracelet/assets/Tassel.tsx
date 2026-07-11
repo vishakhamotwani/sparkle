@@ -1,30 +1,24 @@
 import type { BeadAsset } from "./types";
 
 /**
- * Hangs straight down from its slot: knot at the top (on the string),
- * five strands fanning below.
+ * Knot at the origin (sits on the string, behind any bead there), strands
+ * hanging well below so they clear the bottom bead entirely.
  */
 export const Tassel: BeadAsset = ({ tint }) => (
   <g>
     <g
       fill="none"
       stroke={tint}
-      strokeWidth={5}
+      strokeWidth={5.5}
       strokeLinecap="round"
       opacity={0.95}
     >
-      <path d="M 0 -41 C -8 -22 -16 8 -19 38" />
-      <path d="M 0 -41 C -4 -20 -9 12 -10 41" />
-      <path d="M 0 -41 C 0 -18 0 16 0 43" />
-      <path d="M 0 -41 C 4 -20 9 12 10 41" />
-      <path d="M 0 -41 C 8 -22 16 8 19 38" />
+      <path d="M 0 6 C -10 40 -22 80 -26 118" />
+      <path d="M 0 6 C -5 42 -12 88 -13 124" />
+      <path d="M 0 6 C 0 44 0 92 0 128" />
+      <path d="M 0 6 C 5 42 12 88 13 124" />
+      <path d="M 0 6 C 10 40 22 80 26 118" />
     </g>
-    <circle
-      cy={-45}
-      r={9}
-      fill={tint}
-      stroke="rgba(0,0,0,0.18)"
-      strokeWidth={2.5}
-    />
+    <circle r={10} fill={tint} stroke="rgba(0,0,0,0.18)" strokeWidth={2.5} />
   </g>
 );

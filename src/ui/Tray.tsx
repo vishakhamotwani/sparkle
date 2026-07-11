@@ -1,19 +1,30 @@
+import type { ComponentType } from "react";
 import { ombreTint } from "../core/palette";
-import type { StudioDefinition, Tool } from "../core/types";
+import type { AssetProps, StudioDefinition, Tool } from "../core/types";
 import { CustomColorSwatch } from "./CustomColorSwatch";
 import { EmojiButton } from "./EmojiButton";
+import { ExtraButton } from "./ExtraButton";
 import { OmbreSwatch } from "./OmbreSwatch";
 import { RainbowSwatch } from "./RainbowSwatch";
 import { ShapeButton } from "./ShapeButton";
 import { Swatch } from "./Swatch";
 
+export type TrayExtra = {
+  id: string;
+  label: string;
+  active: boolean;
+  component: ComponentType<AssetProps>;
+  onToggle: () => void;
+};
+
 type TrayProps = {
   studio: StudioDefinition;
   tool: Tool;
   onToolChange: (tool: Tool) => void;
+  extras?: TrayExtra[];
 };
 
-export function Tray({ studio, tool, onToolChange }: TrayProps) {
+export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
   // Picking a shape or color leaves sticker mode; picking the same
   // sticker again toggles back out of it.
   const pickShape = (assetId: string) =>
@@ -44,6 +55,16 @@ export function Tray({ studio, tool, onToolChange }: TrayProps) {
               onSelect={pickShape}
             />
           ))}
+        {extras.map((extra) => (
+          <ExtraButton
+            key={extra.id}
+            label={extra.label}
+            active={extra.active}
+            tint={tool.tint}
+            component={extra.component}
+            onToggle={extra.onToggle}
+          />
+        ))}
       </div>
       <div className="tray-row" role="group" aria-label="Colors">
         {studio.palette.map((item) => {

@@ -31,6 +31,8 @@ export type Slot = {
   /** Asset categories this slot accepts. */
   accepts: string[];
   required?: boolean;
+  /** Don't render the empty-slot ghost (for toggleable decoration slots). */
+  hideGhost?: boolean;
 };
 
 export type Placement = {
@@ -82,8 +84,13 @@ export type StudioDefinition = {
   /** Emoji stickers available in the tray. */
   stickers: string[];
   /**
-   * Placements present in a fresh design (e.g. the bracelet's tassels).
-   * "Start over" returns to these rather than to an empty stage.
+   * Placements present in a fresh design. "Start over" returns to these
+   * rather than to an empty stage.
    */
   initialPlacements?: Placement[];
+  /**
+   * On/off decorations (e.g. the bracelet tassel): a tray button adds the
+   * asset to its dedicated slot in the current color, and removes it again.
+   */
+  toggleables?: { slotId: string; assetId: string; label: string }[];
 };

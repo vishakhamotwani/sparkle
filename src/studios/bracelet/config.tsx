@@ -11,18 +11,15 @@ const STRING_RADIUS = 235;
 const BEAD_COUNT = 14;
 
 function braceletSlots(): Slot[] {
-  // Tassels come first so beads paint (and win taps) over their knots.
-  const tassels = [78, 102].map((angle, i) => {
-    const radians = (angle * Math.PI) / 180;
-    return {
-      id: `tassel-${i}`,
-      // Slot origin sits below the string; the knot (drawn at y=-45)
-      // lands exactly on it, and the strands hang straight down.
-      x: CENTER + STRING_RADIUS * Math.cos(radians),
-      y: CENTER + STRING_RADIUS * Math.sin(radians) + 45,
-      accepts: ["tassel"],
-    };
-  });
+  // The tassel comes first so its knot paints behind the bottom bead,
+  // reading as "hangs from beneath it"; the strands clear the bead below.
+  const tassel: Slot = {
+    id: "tassel",
+    x: CENTER,
+    y: CENTER + STRING_RADIUS,
+    accepts: ["tassel"],
+    hideGhost: true,
+  };
   const beads = Array.from({ length: BEAD_COUNT }, (_, i) => {
     const angle = -90 + (i * 360) / BEAD_COUNT;
     const radians = (angle * Math.PI) / 180;
@@ -35,7 +32,7 @@ function braceletSlots(): Slot[] {
       accepts: ["bead"],
     };
   });
-  return [...tassels, ...beads];
+  return [tassel, ...beads];
 }
 
 const braceletString = (
@@ -56,7 +53,8 @@ export const braceletStudio: StudioDefinition = {
   icon: "📿",
   stage: {
     width: STAGE_SIZE,
-    height: STAGE_SIZE,
+    // Extra room below the bracelet for the tassel strands.
+    height: STAGE_SIZE + 60,
     background: braceletString,
   },
   slots: braceletSlots(),
@@ -94,10 +92,7 @@ export const braceletStudio: StudioDefinition = {
       fixed: true,
     },
   },
-  initialPlacements: [
-    { slotId: "tassel-0", assetId: "tassel", tint: "#FFD700" },
-    { slotId: "tassel-1", assetId: "tassel", tint: "#FFD700" },
-  ],
+  toggleables: [{ slotId: "tassel", assetId: "tassel", label: "tassel" }],
   palette: [
     "#FF6FB5", // pink
     "#FF5A5F", // red
