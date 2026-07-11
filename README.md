@@ -2,6 +2,38 @@
 
 A free, no-ads collection of creative mini-studios for kids (ages 4–10). No brushes, no drawing — every interaction feels like placing stickers: **tap a color, tap a spot, done.**
 
+Access [sparkle studio here](https://sparklestudio.vercel.app/).
+
+## Why I built this?
+It was summer. My daughter would come home early from camp every day, 
+and somehow we ended up on a mission — a new nail salon app every day 
+for a whole week. Download, get excited, do two designs, hit a wall. 
+Ads every 30 seconds. "Subscribe to unlock" on every good color. 
+She'd hand me the phone with this look like, can you fix it?
+
+So I did. I built her one. No ads, no subscriptions, no paywalls. 
+Just a bracelet maker to start, with more studios coming.
+
+This is Sparkle Studio.
+
+## WHAT I LEARNED (personal, honest)
+
+The hand SVG problem:
+The original plan was a nail art app. I spent two weeks trying to get 
+a production-quality hand SVG. AI-generated PNGs looked great but 
+converting them to clean interactive SVGs was a nightmare — auto-tracing 
+created messy vectors, and hand-writing anatomically correct finger paths 
+is genuinely hard. The nail studio is still coming, just waiting for a 
+better illustration solution. That detour taught me to start with the 
+simplest possible asset and prove the interaction first. Hence bracelets.
+
+The modular insight:
+Once the bracelet was working, it became obvious that the interaction 
+engine had nothing to do with bracelets specifically. Slots, placements, 
+a tray of tools, tap-to-fill — that's the whole app. Every future studio 
+is just a different set of slots and a different set of assets plugged 
+into the same engine. That realization shaped the entire architecture.
+
 ## Studios
 
 - **📿 Bracelet Maker** — build a bracelet bead by bead
@@ -173,7 +205,7 @@ The home screen card, tray, undo, save, persistence, backup restore, PWA caching
 
 ## Tech
 
-React 19 · TypeScript · Vite · SVG · [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) (offline support)
+React 19 · TypeScript · Vite · SVG · [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) (offline support) · Claude Fable 5
 
 No state library, no router, no CSS framework — one `useReducer` hook and plain CSS cover the current needs.
 
