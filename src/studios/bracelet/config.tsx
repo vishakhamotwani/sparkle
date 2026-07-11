@@ -51,6 +51,7 @@ export const braceletStudio: StudioDefinition = {
   id: "bracelet",
   name: "Bracelet Maker",
   icon: "📿",
+  creationName: "bracelet",
   stage: {
     width: STAGE_SIZE,
     // Extra room below the bracelet for the tassel strands.

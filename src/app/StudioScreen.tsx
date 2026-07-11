@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Celebration } from "../ui/Celebration";
 import { exportStagePng } from "../core/export";
-import { loadPlacements, saveDesign } from "../core/storage";
-import type { Tool } from "../core/types";
+import {
+  clearBackup,
+  loadBackup,
+  loadPlacements,
+  saveDesign,
+} from "../core/storage";
+import type { Placement, Tool } from "../core/types";
 import { useDesign } from "../core/useDesign";
 import { Stage } from "../ui/Stage";
 import { StudioShell } from "../ui/StudioShell";
 import { ToolbarButton } from "../ui/ToolbarButton";
 import { Tray } from "../ui/Tray";
+import { RestorePrompt } from "../ui/RestorePrompt";
 import { getStudio } from "./registry";
 
 type StudioScreenProps = {
@@ -25,11 +31,17 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
     ...saved,
     ...base.filter((p) => !saved.some((s) => s.slotId === p.slotId)),
   ];
-  const { design, canUndo, place, clearSlot, undo, reset } = useDesign(
+  const { design, canUndo, place, clearSlot, undo, reset, load } = useDesign(
     studio.id,
     initial,
     base,
   );
+  // If the save came up empty but a previous design is backed up, offer it.
+  const [backupOffer, setBackupOffer] = useState<Placement[] | null>(() => {
+    if (saved.length > 0) return null;
+    const backup = loadBackup(studio);
+    return backup.length > 0 ? backup : null;
+  });
   const [tool, setTool] = useState<Tool>(() => ({
     assetId: Object.values(studio.assets).find((a) => !a.fixed)!.id,
     tint: typeof studio.palette[0] === "string" ? studio.palette[0] : "#FF6FB5",
@@ -118,67 +130,83 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
     setCelebrating(false);
   }, [studioId]);
 
-  const isPristine =
-    JSON.stringify(design.placements) === JSON.stringify(base);
+  const isPristine = JSON.stringify(design.placements) === JSON.stringify(base);
 
-  const extras = (studio.toggleables ?? []).map(({ slotId, assetId, label }) => {
-    const active = design.placements.some((p) => p.slotId === slotId);
-    return {
-      id: slotId,
-      label: active ? `Remove ${label}` : `Add ${label}`,
-      active,
-      component: studio.assets[assetId].component,
-      onToggle: () =>
-        active
-          ? clearSlot(slotId)
-          : place({ slotId, assetId, tint: tool.tint }),
-    };
-  });
+  const extras = (studio.toggleables ?? []).map(
+    ({ slotId, assetId, label }) => {
+      const active = design.placements.some((p) => p.slotId === slotId);
+      return {
+        id: slotId,
+        label: active ? `Remove ${label}` : `Add ${label}`,
+        active,
+        component: studio.assets[assetId].component,
+        onToggle: () =>
+          active
+            ? clearSlot(slotId)
+            : place({ slotId, assetId, tint: tool.tint }),
+      };
+    },
+  );
 
   return (
-    <StudioShell
-      title={studio.name}
-      onBack={onBack}
-      toolbar={
-        <>
-          <ToolbarButton
-            label="Undo"
-            icon="↩️"
-            disabled={!canUndo}
-            onPress={undo}
+    <>
+      <StudioShell
+        title={studio.name}
+        onBack={onBack}
+        toolbar={
+          <>
+            <ToolbarButton
+              label="Undo"
+              icon="↩️"
+              disabled={!canUndo}
+              onPress={undo}
+            />
+            <ToolbarButton
+              label="Save"
+              icon="📸"
+              disabled={design.placements.length === 0 || celebrating}
+              onPress={handleSave}
+            />
+            <ToolbarButton
+              label="Start over"
+              icon="🌈"
+              disabled={isPristine}
+              onPress={reset}
+            />
+          </>
+        }
+        stage={
+          <Stage
+            studio={studio}
+            design={design}
+            onSlotTap={handleSlotTap}
+            svgRef={svgRef}
+            stickerMode={tool.emoji !== null}
           />
-          <ToolbarButton
-            label="Save"
-            icon="📸"
-            disabled={design.placements.length === 0 || celebrating}
-            onPress={handleSave}
+        }
+        tray={
+          <Tray
+            studio={studio}
+            tool={tool}
+            onToolChange={setTool}
+            extras={extras}
           />
-          {celebrating && <Celebration onDone={finishCelebration} />}
-          <ToolbarButton
-            label="Start over"
-            icon="🌈"
-            disabled={isPristine}
-            onPress={reset}
-          />
-        </>
-      }
-      stage={
-        <Stage
-          studio={studio}
-          design={design}
-          onSlotTap={handleSlotTap}
-          svgRef={svgRef}
-          stickerMode={tool.emoji !== null}
+        }
+      />
+      {celebrating && <Celebration onDone={finishCelebration} />}
+      {backupOffer && (
+        <RestorePrompt
+          creationName={studio.creationName ?? "creation"}
+          onYes={() => {
+            load(backupOffer);
+            setBackupOffer(null);
+          }}
+          onNo={() => {
+            clearBackup(studio.id);
+            setBackupOffer(null);
+          }}
         />
-      }
-      tray={
-        <Tray
-          studio={studio}
-          tool={tool}
-          onToolChange={setTool}
-          extras={extras}
-        />
-      }
-    />
+      )}
+    </>
   );
 }

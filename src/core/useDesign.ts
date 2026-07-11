@@ -11,7 +11,8 @@ type Action =
   | { type: "PLACE"; placement: Placement }
   | { type: "CLEAR_SLOT"; slotId: string }
   | { type: "UNDO" }
-  | { type: "RESET"; placements: Placement[] };
+  | { type: "RESET"; placements: Placement[] }
+  | { type: "LOAD"; placements: Placement[] };
 
 function withHistory(state: State, placements: Placement[]): State {
   return {
@@ -62,6 +63,10 @@ function reducer(state: State, action: Action): State {
       }
       return withHistory(state, action.placements);
     }
+    case "LOAD": {
+      // Replace the whole design (e.g. restoring a backup) — undoable.
+      return withHistory(state, action.placements);
+    }
   }
 }
 
@@ -82,5 +87,6 @@ export function useDesign(
     clearSlot: (slotId: string) => dispatch({ type: "CLEAR_SLOT", slotId }),
     undo: () => dispatch({ type: "UNDO" }),
     reset: () => dispatch({ type: "RESET", placements: basePlacements }),
+    load: (placements: Placement[]) => dispatch({ type: "LOAD", placements }),
   };
 }

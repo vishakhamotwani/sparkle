@@ -375,6 +375,75 @@ body {
   }
 }
 
+/* Restore-backup prompt */
+.restore-prompt {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(92, 68, 87, 0.35);
+}
+
+.restore-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 380px;
+  padding: 28px 24px;
+  border-radius: 28px;
+  background: white;
+  box-shadow: 0 12px 40px rgba(92, 68, 87, 0.3);
+  animation: pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.restore-question {
+  margin: 0;
+  font-family:
+    ui-rounded, "SF Pro Rounded", "Chalkboard SE", "Comic Sans MS",
+    cursive, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.restore-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.restore-yes,
+.restore-no {
+  border: none;
+  cursor: pointer;
+  padding: 12px 22px;
+  min-height: 48px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: inherit;
+  transition: transform 120ms ease;
+}
+
+.restore-yes:active,
+.restore-no:active {
+  transform: scale(0.92);
+}
+
+.restore-yes {
+  background: #ff6fb5;
+  color: white;
+  box-shadow: 0 3px 10px rgba(255, 111, 181, 0.5);
+}
+
+.restore-no {
+  background: #f3e8ef;
+  color: #5c4457;
+}
+
 /* Home screen */
 .home {
   min-height: 100dvh;

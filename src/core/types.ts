@@ -76,6 +76,8 @@ export type StudioDefinition = {
   name: string;
   /** Emoji shown on the studio's home-screen card. */
   icon: string;
+  /** What a finished design is called in kid-facing copy, e.g. "bracelet". */
+  creationName?: string;
   stage: {
     width: number;
     height: number;
