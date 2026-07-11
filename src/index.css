@@ -90,6 +90,31 @@ body {
   animation: pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Glitter: sparkles twinkle out of phase. Opacity is also set as an SVG
+   attribute so exported PNGs keep static sparkles. */
+.glitter-spark {
+  animation: twinkle 1.3s ease-in-out infinite;
+}
+
+.glitter-spark:nth-child(2n) {
+  animation-delay: 0.45s;
+}
+
+.glitter-spark:nth-child(3n) {
+  animation-delay: 0.85s;
+  animation-duration: 1.7s;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
 /* Sticker mode: valid targets glow, everything else steps back. */
 .slot-dim {
   opacity: 0.35;
@@ -218,6 +243,14 @@ body {
   transform: scale(1.08);
 }
 
+/* The glitter mode button reads differently from the emoji stickers. */
+.glitter-button {
+  background: linear-gradient(135deg, #fff 0%, #ffe3f2 45%, #fff3c4 100%);
+  box-shadow:
+    0 2px 6px rgba(92, 68, 87, 0.15),
+    inset 0 0 10px rgba(255, 255, 255, 0.9);
+}
+
 .shape-button {
   width: 64px;
   height: 64px;
@@ -254,6 +287,86 @@ body {
 .toolbar-button:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+/* Save celebration */
+.celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti-piece {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  opacity: 0;
+  animation: confetti-burst 2s cubic-bezier(0.12, 0.66, 0.4, 1) forwards;
+}
+
+@keyframes confetti-burst {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+.celebration-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family:
+    ui-rounded, "SF Pro Rounded", "Chalkboard SE", "Comic Sans MS",
+    cursive, sans-serif;
+  font-size: clamp(2.2rem, 9vw, 4.5rem);
+  font-weight: 800;
+  color: #ff4f9e;
+  text-shadow:
+    0 3px 0 rgba(255, 255, 255, 0.85),
+    0 8px 24px rgba(255, 111, 181, 0.4);
+  animation: message-pop 2.3s ease forwards;
+}
+
+@keyframes message-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  12% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.06);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece,
+  .glitter-spark,
+  .slot-glow,
+  .pop {
+    animation: none;
+  }
 }
 
 /* Home screen */

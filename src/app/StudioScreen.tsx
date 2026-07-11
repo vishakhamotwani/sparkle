@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Celebration } from "../ui/Celebration";
 import { exportStagePng } from "../core/export";
 import { loadPlacements, saveDesign } from "../core/storage";
 import type { Tool } from "../core/types";
@@ -33,7 +34,9 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
     assetId: Object.values(studio.assets).find((a) => !a.fixed)!.id,
     tint: typeof studio.palette[0] === "string" ? studio.palette[0] : "#FF6FB5",
     emoji: null,
+    glitter: false,
   }));
+  const [celebrating, setCelebrating] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -48,7 +51,24 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
     // Slots that don't take the current tool's asset (tassels): any color
     // tap just recolors what's there.
     if (!slot.accepts.includes(studio.assets[tool.assetId].category)) {
-      if (existing && !tool.emoji) place({ ...existing, tint: tool.tint });
+      if (existing && !tool.emoji && !tool.glitter) {
+        place({ ...existing, tint: tool.tint });
+      }
+      return;
+    }
+    if (tool.glitter) {
+      // Glitter mode: toggle shimmer per bead; empty slots get a
+      // glittery bead in the current shape and color.
+      if (existing) {
+        place({ ...existing, glitter: existing.glitter ? undefined : true });
+      } else {
+        place({
+          slotId,
+          assetId: tool.assetId,
+          tint: tool.tint,
+          glitter: true,
+        });
+      }
       return;
     }
     if (tool.emoji) {
@@ -72,8 +92,8 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
         });
       }
     } else {
-      // Bead mode: place/recolor, keeping a sticker only if the new shape
-      // can carry it.
+      // Bead mode: place/recolor, keeping glitter and keeping a sticker
+      // only if the new shape can carry it.
       place({
         slotId,
         assetId: tool.assetId,
@@ -81,15 +101,22 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
         emoji: studio.assets[tool.assetId].stickerable
           ? existing?.emoji
           : undefined,
+        glitter: existing?.glitter,
       });
     }
   };
 
+  // Save = a short celebration, then the actual PNG download.
   const handleSave = () => {
-    if (svgRef.current) {
-      void exportStagePng(svgRef.current, `sparkle-${studio.id}.png`);
-    }
+    if (svgRef.current && !celebrating) setCelebrating(true);
   };
+
+  const finishCelebration = useCallback(() => {
+    if (svgRef.current) {
+      void exportStagePng(svgRef.current, `sparkle-${studioId}.png`);
+    }
+    setCelebrating(false);
+  }, [studioId]);
 
   const isPristine =
     JSON.stringify(design.placements) === JSON.stringify(base);
@@ -123,9 +150,10 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
           <ToolbarButton
             label="Save"
             icon="📸"
-            disabled={design.placements.length === 0}
+            disabled={design.placements.length === 0 || celebrating}
             onPress={handleSave}
           />
+          {celebrating && <Celebration onDone={finishCelebration} />}
           <ToolbarButton
             label="Start over"
             icon="🌈"

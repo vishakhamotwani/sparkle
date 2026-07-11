@@ -122,5 +122,6 @@ export const braceletStudio: StudioDefinition = {
     { ombre: ["#FFD93D", "#FFA33E"] }, // yellow → orange
     { custom: true },
   ],
-  stickers: ["✨", "⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀"],
+  stickers: ["⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀"],
+  glitter: true,
 };

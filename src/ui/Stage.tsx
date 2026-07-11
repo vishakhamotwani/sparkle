@@ -11,6 +11,21 @@ type StageProps = {
   stickerMode?: boolean;
 };
 
+// A tiny four-point sparkle centered on (0,0), ~12 units across.
+const SPARK_PATH =
+  "M 0 -6 L 1.6 -1.6 L 6 0 L 1.6 1.6 L 0 6 L -1.6 1.6 L -6 0 L -1.6 -1.6 Z";
+
+// Fixed sparkle layout inside a bead: x, y, scale.
+const SPARKS: [number, number, number][] = [
+  [-16, -14, 1.0],
+  [12, -18, 1.3],
+  [22, 6, 0.8],
+  [-4, 2, 1.5],
+  [-24, 12, 0.9],
+  [8, 20, 1.1],
+  [-10, 26, 0.7],
+];
+
 function slotTransform(slot: Slot): string {
   let t = `translate(${slot.x} ${slot.y})`;
   if (slot.rotation) t += ` rotate(${slot.rotation})`;
@@ -87,10 +102,24 @@ export function Stage({
             {BeadComponent && placement ? (
               // Remount on any change so the pop animation replays.
               <g
-                key={`${placement.assetId}-${placement.tint}-${placement.emoji}`}
+                key={`${placement.assetId}-${placement.tint}-${placement.emoji}-${placement.glitter}`}
                 className="pop"
               >
                 <BeadComponent tint={placement.tint ?? "#cccccc"} />
+                {placement.glitter && (
+                  <g>
+                    {SPARKS.map(([x, y, s], i) => (
+                      <path
+                        key={i}
+                        className="glitter-spark"
+                        d={SPARK_PATH}
+                        transform={`translate(${x} ${y}) scale(${s})`}
+                        fill="#ffffff"
+                        opacity={0.9}
+                      />
+                    ))}
+                  </g>
+                )}
                 {placement.emoji && (
                   // Counter-rotate so stickers stay upright all around the curve.
                   <g transform={`rotate(${-(slot.rotation ?? 0)})`}>

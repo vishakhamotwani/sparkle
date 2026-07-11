@@ -41,6 +41,8 @@ export type Placement = {
   tint?: string;
   /** Emoji sticker rendered on top of the asset. */
   emoji?: string;
+  /** Twinkling glitter overlay on top of the asset's color. */
+  glitter?: boolean;
 };
 
 /** A complete creation — serializable, tiny, and the unit of undo/save/share. */
@@ -55,6 +57,8 @@ export type Tool = {
   tint: string;
   /** When set, the tool is in sticker mode: taps add this emoji on top. */
   emoji: string | null;
+  /** Glitter mode: taps toggle a shimmer overlay on beads. */
+  glitter: boolean;
 };
 
 /**
@@ -83,6 +87,8 @@ export type StudioDefinition = {
   palette: PaletteItem[];
   /** Emoji stickers available in the tray. */
   stickers: string[];
+  /** Offer the glitter mode toggle in the tray. */
+  glitter?: boolean;
   /**
    * Placements present in a fresh design. "Start over" returns to these
    * rather than to an empty stage.

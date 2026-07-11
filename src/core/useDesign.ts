@@ -30,7 +30,8 @@ function reducer(state: State, action: Action): State {
         existing &&
         existing.assetId === placement.assetId &&
         existing.tint === placement.tint &&
-        existing.emoji === placement.emoji
+        existing.emoji === placement.emoji &&
+        existing.glitter === placement.glitter
       ) {
         return state;
       }

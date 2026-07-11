@@ -4,6 +4,7 @@ import type { AssetProps, StudioDefinition, Tool } from "../core/types";
 import { CustomColorSwatch } from "./CustomColorSwatch";
 import { EmojiButton } from "./EmojiButton";
 import { ExtraButton } from "./ExtraButton";
+import { GlitterButton } from "./GlitterButton";
 import { OmbreSwatch } from "./OmbreSwatch";
 import { RainbowSwatch } from "./RainbowSwatch";
 import { ShapeButton } from "./ShapeButton";
@@ -25,14 +26,20 @@ type TrayProps = {
 };
 
 export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
-  // Picking a shape or color leaves sticker mode; picking the same
-  // sticker again toggles back out of it.
+  // Picking a shape or color leaves sticker/glitter mode; picking the same
+  // sticker or the glitter button again toggles back out.
   const pickShape = (assetId: string) =>
-    onToolChange({ ...tool, assetId, emoji: null });
+    onToolChange({ ...tool, assetId, emoji: null, glitter: false });
   const pickColor = (tint: string) =>
-    onToolChange({ ...tool, tint, emoji: null });
+    onToolChange({ ...tool, tint, emoji: null, glitter: false });
   const pickSticker = (emoji: string) =>
-    onToolChange({ ...tool, emoji: tool.emoji === emoji ? null : emoji });
+    onToolChange({
+      ...tool,
+      emoji: tool.emoji === emoji ? null : emoji,
+      glitter: false,
+    });
+  const toggleGlitter = () =>
+    onToolChange({ ...tool, glitter: !tool.glitter, emoji: null });
 
   const inColorMode = tool.emoji === null;
   const presetTints = new Set<string>();
@@ -110,8 +117,11 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
           );
         })}
       </div>
-      {studio.stickers.length > 0 && (
+      {(studio.stickers.length > 0 || studio.glitter) && (
         <div className="tray-row" role="group" aria-label="Stickers">
+          {studio.glitter && (
+            <GlitterButton selected={tool.glitter} onToggle={toggleGlitter} />
+          )}
           {studio.stickers.map((emoji) => (
             <EmojiButton
               key={emoji}
