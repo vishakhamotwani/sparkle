@@ -11,7 +11,7 @@ export default defineConfig({
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
       },
-      includeAssets: ["apple-touch-icon.png", "hand.svg"],
+      includeAssets: ["favicon.svg", "apple-touch-icon.png", "hand.svg"],
       manifest: {
         name: "Sparkle Studio",
         short_name: "Sparkle",

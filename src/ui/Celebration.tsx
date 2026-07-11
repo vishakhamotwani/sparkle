@@ -12,7 +12,9 @@ const CONFETTI_COLORS = [
   "#B983FF",
 ];
 
-const DURATION_MS = 2300;
+// Fade-in + confetti + message, with the overlay fading back out at the
+// end (see the celebration-fade keyframes) before the download fires.
+const DURATION_MS = 2600;
 
 type CelebrationProps = {
   /** Called once the party is over (~2.3s). */
