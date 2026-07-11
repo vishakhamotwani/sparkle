@@ -11,7 +11,7 @@ export function OmbreSwatch({ from, to, selected, onSelect }: OmbreSwatchProps) 
   return (
     <button
       type="button"
-      className={`swatch${selected ? " selected" : ""}`}
+      className={`swatch ombre-swatch${selected ? " selected" : ""}`}
       style={{ background: `linear-gradient(180deg, ${from}, ${to})` }}
       aria-label={`Ombre ${from} to ${to}`}
       aria-pressed={selected}

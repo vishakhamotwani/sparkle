@@ -73,7 +73,7 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
           />
         ))}
       </div>
-      <div className="tray-row" role="group" aria-label="Colors">
+      <div className="tray-row tray-colors" role="group" aria-label="Colors">
         {studio.palette.map((item) => {
           if (typeof item === "string") {
             return (
@@ -81,6 +81,7 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
                 key={item}
                 color={item}
                 selected={inColorMode && tool.tint === item}
+                secondary={studio.compactHide?.includes(item)}
                 onSelect={pickColor}
               />
             );

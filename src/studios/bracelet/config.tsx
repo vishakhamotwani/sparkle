@@ -124,4 +124,7 @@ export const braceletStudio: StudioDefinition = {
   ],
   stickers: ["⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀"],
   glitter: true,
+  // Phones show 10 essential colors; aqua and silver are the nearest
+  // duplicates of blue and white/gray, so they sit out.
+  compactHide: ["#4DD4E8", "#C0C0C0"],
 };

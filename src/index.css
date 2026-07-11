@@ -462,8 +462,10 @@ body {
   letter-spacing: 0.04em;
 }
 
-/* Phones in portrait: smaller tray targets so all rows fit comfortably. */
-@media (max-width: 480px) {
+/* Phones in portrait: smaller tray targets, and the color strip becomes a
+   two-row grid of essentials (10 colors + rainbow + custom = 6 × 2) instead
+   of a horizontal scroller. Tablet and up keep the scrolling row. */
+@media (max-width: 500px) {
   .swatch,
   .emoji-button {
     width: 46px;
@@ -475,6 +477,17 @@ body {
   .shape-button {
     width: 52px;
     height: 52px;
+  }
+  .tray-colors {
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Six 46px swatches + gaps + padding: forces an even 6-per-row wrap. */
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .compact-hide,
+  .ombre-swatch {
+    display: none;
   }
 }
 

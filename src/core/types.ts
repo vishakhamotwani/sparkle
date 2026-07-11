@@ -90,6 +90,12 @@ export type StudioDefinition = {
   /** Offer the glitter mode toggle in the tray. */
   glitter?: boolean;
   /**
+   * Palette colors dropped on narrow (phone) screens, where the color row
+   * becomes a two-row grid instead of a scrolling strip. Ombre presets are
+   * always hidden there.
+   */
+  compactHide?: string[];
+  /**
    * Placements present in a fresh design. "Start over" returns to these
    * rather than to an empty stage.
    */
