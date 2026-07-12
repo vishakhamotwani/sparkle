@@ -99,6 +99,14 @@ export const braceletStudio: StudioDefinition = {
     { ombre: ["#FF6FB5", "#B983FF"] }, // pink → purple
     { ombre: ["#4D96FF", "#6BCB77"] }, // blue → green
     { ombre: ["#FFD93D", "#FFA33E"] }, // yellow → orange
+    { ombre: ["#FFA33E", "#FF6FB5"] }, // sunset: orange → pink
+    { ombre: ["#2DD4BF", "#4D96FF"] }, // ocean: teal → blue
+    { ombre: ["#FF6FB5", "#FF5A5F"] }, // candy: pink → red
+    { ombre: ["#6BCB77", "#2E7D32"] }, // forest: green → dark green
+    { ombre: ["#FFC7E3", "#D8B4FE"] }, // cotton candy: light pink → light purple
+    { ombre: ["#FFCBA4", "#FF6F61"] }, // peach: peach → coral
+    { ombre: ["#1E3A8A", "#7C3AED"] }, // midnight: dark blue → purple
+    { ombre: ["#FF6FB5", "#FFD700"] }, // rose gold: pink → gold
     {
       rainbow: [
         "#FF6FB5", // pink
@@ -124,7 +132,10 @@ export const braceletStudio: StudioDefinition = {
     "#C0C0C0", // silver
     { custom: true },
   ],
-  stickers: ["⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀"],
+  stickers: [
+    "⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀",
+    "🦄", "🌺", "🍓", "🎵", "💫", "🌙", "🍦", "👑", "🐝", "🌻", "🎈", "🍄",
+  ],
   glitter: true,
   // Phones show 10 essential colors; aqua and silver are the nearest
   // duplicates of blue and white/gray, so they sit out.

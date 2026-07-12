@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Footer } from "./Footer";
 
 type StudioShellProps = {
   title: string;
@@ -34,7 +35,10 @@ export function StudioShell({
         <div className="shell-toolbar">{toolbar}</div>
       </header>
       <main className="shell-stage">{stage}</main>
-      <footer className="shell-tray">{tray}</footer>
+      <footer className="shell-tray">
+        {tray}
+        <Footer />
+      </footer>
     </div>
   );
 }

@@ -595,21 +595,28 @@ body {
   letter-spacing: 0.04em;
 }
 
-.home-footer {
+.credit-footer {
   margin-top: 28px;
   font-size: 0.85rem;
   opacity: 0.7;
   text-align: center;
 }
 
-.home-footer a {
+.credit-footer a {
   color: #c71585;
   font-weight: 600;
   text-decoration: none;
 }
 
-.home-footer a:hover {
+.credit-footer a:hover {
   text-decoration: underline;
+}
+
+/* Inside a studio the credit is even quieter, tucked under the tray. */
+.shell-tray .credit-footer {
+  margin-top: 2px;
+  font-size: 0.72rem;
+  opacity: 0.55;
 }
 
 /* Phones in portrait: smaller tray targets, and the color strip becomes a
@@ -638,6 +645,18 @@ body {
   .compact-hide,
   .ombre-swatch {
     display: none;
+  }
+  /* Stickers wrap into a grid instead of scrolling. */
+  .tray-stickers {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .glitter-button {
+    height: 46px;
+    padding: 0 14px;
+    font-size: 0.9rem;
   }
 }
 

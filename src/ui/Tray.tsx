@@ -123,7 +123,7 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
         })}
       </div>
       {(studio.stickers.length > 0 || studio.glitter) && (
-        <div className="tray-row" role="group" aria-label="Stickers">
+        <div className="tray-row tray-stickers" role="group" aria-label="Stickers">
           {studio.glitter && (
             <GlitterButton selected={tool.glitter} onToggle={toggleGlitter} />
           )}

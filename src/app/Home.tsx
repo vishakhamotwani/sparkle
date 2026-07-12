@@ -1,4 +1,5 @@
 import type { StudioDefinition } from "../core/types";
+import { Footer } from "../ui/Footer";
 
 type HomeProps = {
   studios: StudioDefinition[];
@@ -46,24 +47,7 @@ export function Home({ studios, onPick }: HomeProps) {
           <span className="studio-card-name">More soon!</span>
         </div>
       </div>
-      <footer className="home-footer">
-        Built by{" "}
-        <a
-          href="https://www.linkedin.com/in/vishakhamotwani"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Vishakha Motwani
-        </a>{" "}
-        ·{" "}
-        <a
-          href="https://github.com/vishakhamotwani"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }
