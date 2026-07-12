@@ -64,16 +64,32 @@ export const CUPCAKE_COLORS = [
 ];
 
 const plate = (
-  <ellipse
-    cx={CX}
-    cy={552}
-    rx={200}
-    ry={28}
-    fill="white"
-    opacity={0.75}
-    stroke="rgba(92,68,87,0.1)"
-    strokeWidth={2}
-  />
+  <>
+    <defs>
+      <filter id="cupcake-shadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="9" />
+      </filter>
+    </defs>
+    <ellipse
+      cx={CX}
+      cy={552}
+      rx={200}
+      ry={28}
+      fill="white"
+      opacity={0.75}
+      stroke="rgba(92,68,87,0.1)"
+      strokeWidth={2}
+    />
+    {/* Soft shadow lifting the cupcake off the plate. */}
+    <ellipse
+      cx={CX}
+      cy={546}
+      rx={150}
+      ry={17}
+      fill="rgba(92,68,87,0.28)"
+      filter="url(#cupcake-shadow)"
+    />
+  </>
 );
 
 export const cupcakeStudio: StudioDefinition = {
@@ -82,10 +98,11 @@ export const cupcakeStudio: StudioDefinition = {
   icon: "🧁",
   creationName: "cupcake",
   stage: { width: STAGE_W, height: STAGE_H, background: plate },
-  // Build order bottom-to-top; array order is z-order.
+  // Array order is z-order: the cake sits behind the wrapper so the
+  // wrapper's ruffled front edge overlaps it, like a real paper case.
   slots: [
-    { id: "wrapper", x: CX, y: 465, accepts: ["wrapper"], required: true, hideGhost: true },
     { id: "cake", x: CX, y: 375, accepts: ["cake"], required: true, hideGhost: true },
+    { id: "wrapper", x: CX, y: 465, accepts: ["wrapper"], required: true, hideGhost: true },
     { id: "frosting", x: CX, y: 270, accepts: ["frosting"], required: true, hideGhost: true },
     { id: "sprinkles", x: CX, y: 270, accepts: ["sprinkles"], hideGhost: true },
     { id: "topping", x: CX, y: 150, accepts: ["topping"], hideGhost: true },

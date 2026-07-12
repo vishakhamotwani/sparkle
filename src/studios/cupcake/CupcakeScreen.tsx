@@ -14,6 +14,7 @@ import { Stage } from "../../ui/Stage";
 import { StudioShell } from "../../ui/StudioShell";
 import { Swatch } from "../../ui/Swatch";
 import { ToolbarButton } from "../../ui/ToolbarButton";
+import { SPRINKLE_MIX } from "./assets/Sprinkles";
 import { CUPCAKE_COLORS, FLAVORS, TOPPINGS, cupcakeStudio } from "./config";
 
 type CupcakeScreenProps = {
@@ -88,7 +89,7 @@ export function CupcakeScreen({ onBack }: CupcakeScreenProps) {
   const toggleSprinkles = () =>
     sprinkles
       ? clearSlot("sprinkles")
-      : place({ slotId: "sprinkles", assetId: "sprinkles", tint: "#FF6FB5" });
+      : place({ slotId: "sprinkles", assetId: "sprinkles", tint: SPRINKLE_MIX });
   // Picking a color turns sprinkles on — one tap, no separate toggle needed.
   const pickSprinkleColor = (tint: string) =>
     place({ slotId: "sprinkles", assetId: "sprinkles", tint });
@@ -213,6 +214,13 @@ export function CupcakeScreen({ onBack }: CupcakeScreenProps) {
                     {sprinkles ? "On!" : "Off"}
                   </span>
                 </button>
+                <button
+                  type="button"
+                  className={`swatch rainbow-swatch${sprinkles?.tint === SPRINKLE_MIX ? " selected" : ""}`}
+                  aria-label="Mixed colors"
+                  aria-pressed={sprinkles?.tint === SPRINKLE_MIX}
+                  onClick={() => pickSprinkleColor(SPRINKLE_MIX)}
+                />
                 {CUPCAKE_COLORS.map((color) => (
                   <Swatch
                     key={color}

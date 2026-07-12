@@ -4,11 +4,11 @@ import type { CupcakeAsset } from "./types";
 export const CakeBody: CupcakeAsset = ({ tint }) => (
   <g>
     <rect
-      x={-122}
+      x={-108}
       y={-34}
-      width={244}
+      width={216}
       height={68}
-      rx={24}
+      rx={30}
       fill={tint}
       stroke="rgba(0,0,0,0.15)"
       strokeWidth={3}

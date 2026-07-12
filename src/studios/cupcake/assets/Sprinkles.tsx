@@ -1,24 +1,43 @@
 import type { CupcakeAsset } from "./types";
 
-// x, y, rotation — scattered inside the frosting silhouette.
-const SPRINKLES: [number, number, number][] = [
-  [-70, 52, 30],
-  [-20, 58, -20],
-  [40, 50, 15],
-  [92, 56, -35],
-  [-88, 14, 10],
-  [-40, 8, 40],
-  [20, 12, -15],
-  [68, 6, 25],
-  [-55, -30, -30],
-  [0, -26, 20],
-  [46, -34, -10],
-  [-26, -66, 15],
-  [22, -70, -25],
-  [2, -96, 35],
+/** Sentinel tint: each sprinkle takes its own color from the mix. */
+export const SPRINKLE_MIX = "mix";
+
+const MIX_COLORS = [
+  "#FF6FB5",
+  "#FFD93D",
+  "#4D96FF",
+  "#6BCB77",
+  "#B983FF",
+  "#FF5A5F",
+  "#4DD4E8",
 ];
 
-/** Little sugar strands sprinkled over the frosting. */
+// x, y, rotation — scattered irregularly inside the frosting cone
+// (positions hug the taper: wide near the base, narrow near the tip).
+const SPRINKLES: [number, number, number][] = [
+  [-92, 58, 24],
+  [-62, 44, -48],
+  [-18, 64, 12],
+  [34, 48, 74],
+  [78, 60, -22],
+  [96, 50, 40],
+  [-80, 16, -70],
+  [-34, 24, 33],
+  [12, 10, -12],
+  [58, 22, 58],
+  [80, 12, -40],
+  [-58, -16, 15],
+  [-8, -24, -62],
+  [42, -14, 28],
+  [-38, -52, -20],
+  [8, -46, 44],
+  [34, -56, -35],
+  [-14, -84, 20],
+  [16, -92, -50],
+];
+
+/** Sugar strands over the frosting — a color mix unless a tint is picked. */
 export const Sprinkles: CupcakeAsset = ({ tint }) => (
   <g>
     {SPRINKLES.map(([x, y, deg], i) => (
@@ -29,7 +48,7 @@ export const Sprinkles: CupcakeAsset = ({ tint }) => (
         width={16}
         height={5}
         rx={2.5}
-        fill={tint}
+        fill={tint === SPRINKLE_MIX ? MIX_COLORS[i % MIX_COLORS.length] : tint}
         stroke="rgba(0,0,0,0.12)"
         strokeWidth={1}
         transform={`translate(${x} ${y}) rotate(${deg})`}
