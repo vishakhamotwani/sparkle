@@ -77,6 +77,9 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
             onToggle={extra.onToggle}
           />
         ))}
+        {studio.glitter && (
+          <GlitterButton selected={tool.glitter} onToggle={toggleGlitter} />
+        )}
       </div>
       <div className="tray-row tray-colors" role="group" aria-label="Colors">
         {studio.palette.map((item) => {
@@ -122,11 +125,8 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
           );
         })}
       </div>
-      {(studio.stickers.length > 0 || studio.glitter) && (
+      {studio.stickers.length > 0 && (
         <div className="tray-row tray-stickers" role="group" aria-label="Stickers">
-          {studio.glitter && (
-            <GlitterButton selected={tool.glitter} onToggle={toggleGlitter} />
-          )}
           {studio.stickers.map((emoji) => (
             <EmojiButton
               key={emoji}

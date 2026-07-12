@@ -68,10 +68,6 @@ body {
   padding: 4px 12px;
 }
 
-/* Floating glitter toggle beside the stage — phone screens only. */
-.glitter-fab {
-  display: none;
-}
 
 .stage {
   width: 100%;
@@ -249,60 +245,12 @@ body {
   transform: scale(1.08);
 }
 
-/* Glitter mode toggle: a labeled pill with a sweeping shimmer, clearly a
-   different kind of thing from the square emoji stickers beside it. */
+/* Glitter mode toggle: lives at the end of the shapes row, same box as the
+   shape buttons; a warm gradient hints it's sparkle rather than a shape. */
 .glitter-button {
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: none;
-  cursor: pointer;
-  padding: 0 18px;
-  height: 56px;
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #5c4457;
+  font-size: 28px;
+  line-height: 1;
   background: linear-gradient(135deg, #fff 0%, #ffe3f2 45%, #fff3c4 100%);
-  box-shadow:
-    0 2px 6px rgba(92, 68, 87, 0.15),
-    inset 0 0 10px rgba(255, 255, 255, 0.9);
-  transition: transform 120ms ease;
-}
-
-.glitter-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.9) 50%,
-    transparent 70%
-  );
-  transform: translateX(-100%);
-  animation: shimmer-sweep 2.4s ease-in-out infinite;
-}
-
-@keyframes shimmer-sweep {
-  0%,
-  55% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.glitter-button:active {
-  transform: scale(0.92);
-}
-
-.glitter-button.selected {
-  outline: 4px solid #5c4457;
-  outline-offset: 2px;
-  transform: scale(1.05);
 }
 
 .shape-button {
@@ -423,7 +371,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .confetti-piece,
   .glitter-spark,
-  .glitter-button::after,
   .slot-glow,
   .pop {
     animation: none;
@@ -679,35 +626,8 @@ body {
     font-size: 0.85rem;
     padding: 6px 14px;
   }
-  /* Glitter moves out of the tray to a round button beside the stage. */
-  .tray .glitter-button {
-    display: none;
-  }
-  .glitter-fab {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border: none;
-    border-radius: 50%;
+  .glitter-button {
     font-size: 22px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #fff 0%, #ffe3f2 45%, #fff3c4 100%);
-    box-shadow:
-      0 2px 8px rgba(92, 68, 87, 0.25),
-      inset 0 0 8px rgba(255, 255, 255, 0.9);
-    z-index: 5;
-  }
-  .glitter-fab.selected {
-    outline: 3px solid #5c4457;
-    outline-offset: 1px;
-    transform: translateY(-50%) scale(1.1);
-    background: linear-gradient(135deg, #ffe3f2 0%, #ffd1e8 50%, #ffec9e 100%);
   }
 }
 
