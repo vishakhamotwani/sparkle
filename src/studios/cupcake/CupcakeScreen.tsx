@@ -200,7 +200,11 @@ export function CupcakeScreen({ onBack }: CupcakeScreenProps) {
               </div>
             )}
             {tab === "sprinkles" && (
-              <div className="tray-row" role="group" aria-label="Sprinkles">
+              <div
+                className="tray-row tray-shapes"
+                role="group"
+                aria-label="Sprinkles"
+              >
                 <button
                   type="button"
                   className={`flavor-button${sprinkles ? " selected" : ""}`}

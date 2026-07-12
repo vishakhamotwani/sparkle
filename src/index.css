@@ -245,9 +245,10 @@ body {
   transform: scale(1.08);
 }
 
-/* Selection rings extend ~8.5px past each button (4px outline + 2px offset
-   + the 1.08 scale-up), and two neighbors can be active at once (tassel +
-   glitter), so the shapes row needs ~17px+ of clearance between buttons. */
+/* Rows where two neighbors can be active at once (bracelet: tassel +
+   glitter; cupcake: sprinkles toggle + color). Selection rings extend
+   ~8.5px past each button (4px outline + 2px offset + the 1.08 scale-up),
+   so these rows need ~17px+ of clearance between buttons. */
 .tray-shapes {
   gap: 24px;
 }
