@@ -646,12 +646,14 @@ body {
   .ombre-swatch {
     display: none;
   }
-  /* Stickers wrap into a grid instead of scrolling. */
+  /* Stickers: exactly two rows, filling column by column and scrolling
+     horizontally — all stickers stay reachable without a tall tray. */
   .tray-stickers {
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 360px;
-    margin: 0 auto;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, auto);
+    justify-content: start;
+    overflow-x: auto;
   }
   .glitter-button {
     height: 46px;
