@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Celebration } from "../ui/Celebration";
 import { exportStagePng } from "../core/export";
+import { incrementStudioSaves } from "../lib/supabase";
 import {
   clearBackup,
   loadBackup,
@@ -126,6 +127,7 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
   const finishCelebration = useCallback(() => {
     if (svgRef.current) {
       void exportStagePng(svgRef.current, `sparkle-${studioId}.png`);
+      void incrementStudioSaves(studioId);
     }
     setCelebrating(false);
   }, [studioId]);

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { exportStagePng } from "../../core/export";
+import { incrementStudioSaves } from "../../lib/supabase";
 import {
   clearBackup,
   loadBackup,
@@ -111,6 +112,7 @@ export function CupcakeScreen({ onBack }: CupcakeScreenProps) {
   const finishCelebration = useCallback(() => {
     if (svgRef.current) {
       void exportStagePng(svgRef.current, `sparkle-${studio.id}.png`);
+      void incrementStudioSaves(studio.id);
     }
     setCelebrating(false);
   }, [studio.id]);
