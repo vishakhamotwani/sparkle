@@ -84,7 +84,7 @@ const plate = (
     <ellipse
       cx={CX}
       cy={546}
-      rx={150}
+      rx={165}
       ry={17}
       fill="rgba(92,68,87,0.28)"
       filter="url(#cupcake-shadow)"
