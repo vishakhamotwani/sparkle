@@ -6,10 +6,7 @@ type HomeProps = {
   onPick: (studioId: string) => void;
 };
 
-const COMING_SOON = [
-  { icon: "🧁", name: "Cupcake" },
-  { icon: "🍦", name: "Ice Cream" },
-];
+const COMING_SOON = [{ icon: "🍦", name: "Ice Cream" }];
 
 export function Home({ studios, onPick }: HomeProps) {
   return (

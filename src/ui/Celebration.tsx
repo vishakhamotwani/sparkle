@@ -19,10 +19,12 @@ const DURATION_MS = 2600;
 type CelebrationProps = {
   /** Called once the party is over (~2.3s). */
   onDone: () => void;
+  /** Studio-specific cheer; defaults to the bracelet's. */
+  message?: string;
 };
 
-/** Short full-screen confetti burst with a "So pretty!" message. */
-export function Celebration({ onDone }: CelebrationProps) {
+/** Short full-screen confetti burst with a celebratory message. */
+export function Celebration({ onDone, message = "So pretty! ✨" }: CelebrationProps) {
   const pieces = useMemo(
     () =>
       Array.from({ length: 80 }, (_, i) => ({
@@ -54,7 +56,7 @@ export function Celebration({ onDone }: CelebrationProps) {
       {pieces.map((piece) => (
         <span key={piece.id} className="confetti-piece" style={piece.style} />
       ))}
-      <div className="celebration-message">So pretty! ✨</div>
+      <div className="celebration-message">{message}</div>
     </div>
   );
 }

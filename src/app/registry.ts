@@ -1,8 +1,10 @@
 import type { StudioDefinition } from "../core/types";
 import { braceletStudio } from "../studios/bracelet/config";
+import { cupcakeStudio } from "../studios/cupcake/config";
 
 const registry: Record<string, StudioDefinition> = {
   [braceletStudio.id]: braceletStudio,
+  [cupcakeStudio.id]: cupcakeStudio,
 };
 
 export function getStudio(id: string): StudioDefinition {

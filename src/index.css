@@ -434,6 +434,91 @@ body {
   animation: pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Cupcake studio: tab row + per-tab pickers */
+.tab-button {
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  padding: 9px 18px;
+  min-height: 44px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  color: #5c4457;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: transform 120ms ease;
+}
+
+.tab-button:active {
+  transform: scale(0.92);
+}
+
+.tab-button.selected {
+  background: #ff6fb5;
+  color: white;
+  box-shadow: 0 3px 10px rgba(255, 111, 181, 0.4);
+}
+
+.flavor-button {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 66px;
+  height: 66px;
+  border: none;
+  border-radius: 18px;
+  background: white;
+  color: #5c4457;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(92, 68, 87, 0.15);
+  transition: transform 120ms ease;
+}
+
+.flavor-button:active {
+  transform: scale(0.9);
+}
+
+.flavor-button.selected {
+  outline: 4px solid #5c4457;
+  outline-offset: 2px;
+  transform: scale(1.08);
+}
+
+.flavor-emoji {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.flavor-name {
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+@media (max-width: 500px) {
+  .tab-button {
+    padding: 6px 12px;
+    min-height: 38px;
+    font-size: 0.82rem;
+  }
+  .flavor-button {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    gap: 1px;
+  }
+  .flavor-emoji {
+    font-size: 18px;
+  }
+  .flavor-name {
+    font-size: 0.5rem;
+  }
+}
+
 /* Restore-backup prompt */
 .restore-prompt {
   position: fixed;
