@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { ombreTint } from "../core/palette";
+import { ombreTint, RAINBOW_TINT } from "../core/palette";
 import type { AssetProps, StudioDefinition, Tool } from "../core/types";
 import { CustomColorSwatch } from "./CustomColorSwatch";
 import { EmojiButton } from "./EmojiButton";
@@ -42,7 +42,7 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
     onToolChange({ ...tool, glitter: !tool.glitter, emoji: null });
 
   const inColorMode = tool.emoji === null;
-  const presetTints = new Set<string>();
+  const presetTints = new Set<string>([RAINBOW_TINT]);
   for (const item of studio.palette) {
     if (typeof item === "string") presetTints.add(item);
     else if ("ombre" in item) presetTints.add(ombreTint(...item.ombre));
@@ -50,6 +50,11 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
 
   return (
     <div className="tray">
+      {tool.emoji !== null && (
+        <div className="sticker-hint" role="status">
+          Tap a round bead to add your sticker
+        </div>
+      )}
       <div className="tray-row" role="group" aria-label="Bead shapes">
         {Object.values(studio.assets)
           .filter((asset) => !asset.fixed)
@@ -90,8 +95,7 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
             return (
               <RainbowSwatch
                 key="rainbow"
-                colors={item.rainbow}
-                currentTint={tool.tint}
+                selected={inColorMode && tool.tint === RAINBOW_TINT}
                 onSelect={pickColor}
               />
             );

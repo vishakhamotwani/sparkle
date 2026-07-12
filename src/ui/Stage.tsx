@@ -2,6 +2,18 @@ import type { Ref } from "react";
 import { ombreId } from "../core/palette";
 import type { Design, Slot, StudioDefinition } from "../core/types";
 
+/** Pie-wedge paths approximating a conic gradient inside a 100×100 box. */
+function rainbowWedges(colors: string[]) {
+  const step = 360 / colors.length;
+  return colors.map((color, i) => {
+    // Radius 75 comfortably covers the box corners; -90° starts at 12 o'clock.
+    const a0 = ((i * step - 90) * Math.PI) / 180;
+    const a1 = (((i + 1) * step - 90) * Math.PI) / 180;
+    const d = `M 50 50 L ${50 + 75 * Math.cos(a0)} ${50 + 75 * Math.sin(a0)} A 75 75 0 0 1 ${50 + 75 * Math.cos(a1)} ${50 + 75 * Math.sin(a1)} Z`;
+    return <path key={color} d={d} fill={color} />;
+  });
+}
+
 type StageProps = {
   studio: StudioDefinition;
   design: Design;
@@ -50,6 +62,10 @@ export function Stage({
     (item): item is { ombre: [string, string] } =>
       typeof item === "object" && "ombre" in item,
   );
+  const rainbow = studio.palette.find(
+    (item): item is { rainbow: string[] } =>
+      typeof item === "object" && "rainbow" in item,
+  );
 
   return (
     <svg
@@ -59,8 +75,20 @@ export function Stage({
       role="img"
       aria-label={studio.name}
     >
-      {ombres.length > 0 && (
+      {(ombres.length > 0 || rainbow) && (
         <defs>
+          {rainbow && (
+            <pattern
+              id="rainbow-conic"
+              patternUnits="objectBoundingBox"
+              width="1"
+              height="1"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              {rainbowWedges(rainbow.rainbow)}
+            </pattern>
+          )}
           {ombres.map(({ ombre: [from, to] }) => (
             <linearGradient
               key={ombreId(from, to)}

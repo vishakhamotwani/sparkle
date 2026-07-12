@@ -45,7 +45,7 @@ into the same engine. That realization shaped the entire architecture.
 ### Creating
 - **4 bead shapes** (circle, heart, star, flower) placed on 14 slots around the bracelet
 - **Tap-to-fill**: pick a shape and color, tap a slot — the bead pops in with a springy animation; tap a filled bead to recolor or reshape it
-- **Rich color tray**: 12 preset colors, a rainbow swatch that cycles colors on each tap, 3 ombre gradients, and a native color picker for any custom color
+- **Rich color tray**: 3 ombre gradients up front, a rainbow bead showing all colors at once, 12 preset colors, and a native color picker for any custom color
 - **Emoji stickers** (⭐ 🌸 🦋 🌈 💎 🍭 🎀) that sit on top of circle beads — valid targets glow, everything else dims, no explanation needed
 - **Glitter mode**: toggle ✨ and tap beads to add a twinkling shimmer over any color, ombre, or custom color
 - **Tassel**: one tap adds a tassel hanging from the bottom of the bracelet in the current color; tap the button again to remove it

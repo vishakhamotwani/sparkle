@@ -37,6 +37,17 @@ export async function exportStagePng(
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+    // Signature watermark along the bottom edge.
+    ctx.font = `600 ${Math.round(size * 0.026)}px -apple-system, "Segoe UI", system-ui, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+    ctx.fillStyle = "rgba(199, 21, 133, 0.45)";
+    ctx.fillText(
+      "Made with Sparkle Studio ✨",
+      canvas.width / 2,
+      canvas.height - size * 0.018,
+    );
+
     const link = document.createElement("a");
     link.download = filename;
     link.href = canvas.toDataURL("image/png");

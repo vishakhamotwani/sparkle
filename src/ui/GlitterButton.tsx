@@ -8,12 +8,11 @@ export function GlitterButton({ selected, onToggle }: GlitterButtonProps) {
   return (
     <button
       type="button"
-      className={`emoji-button glitter-button${selected ? " selected" : ""}`}
-      aria-label="Glitter"
+      className={`glitter-button${selected ? " selected" : ""}`}
       aria-pressed={selected}
       onClick={onToggle}
     >
-      ✨
+      Glitter ✨
     </button>
   );
 }

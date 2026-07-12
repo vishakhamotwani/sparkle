@@ -94,7 +94,22 @@ export const braceletStudio: StudioDefinition = {
     },
   },
   toggleables: [{ slotId: "tassel", assetId: "tassel", label: "tassel" }],
+  // Ombres lead — user testing showed kids reach for them first.
   palette: [
+    { ombre: ["#FF6FB5", "#B983FF"] }, // pink → purple
+    { ombre: ["#4D96FF", "#6BCB77"] }, // blue → green
+    { ombre: ["#FFD93D", "#FFA33E"] }, // yellow → orange
+    {
+      rainbow: [
+        "#FF6FB5", // pink
+        "#FF5A5F", // red
+        "#FFA33E", // orange
+        "#FFD93D", // yellow
+        "#6BCB77", // green
+        "#4D96FF", // blue
+        "#B983FF", // purple
+      ],
+    },
     "#FF6FB5", // pink
     "#FF5A5F", // red
     "#FFA33E", // orange
@@ -107,20 +122,6 @@ export const braceletStudio: StudioDefinition = {
     "#333333", // black
     "#FFD700", // gold
     "#C0C0C0", // silver
-    {
-      rainbow: [
-        "#FF6FB5", // pink
-        "#FF5A5F", // red
-        "#FFA33E", // orange
-        "#FFD93D", // yellow
-        "#6BCB77", // green
-        "#4D96FF", // blue
-        "#B983FF", // purple
-      ],
-    },
-    { ombre: ["#FF6FB5", "#B983FF"] }, // pink → purple
-    { ombre: ["#4D96FF", "#6BCB77"] }, // blue → green
-    { ombre: ["#FFD93D", "#FFA33E"] }, // yellow → orange
     { custom: true },
   ],
   stickers: ["⭐", "🌸", "🦋", "🌈", "💎", "🍭", "🎀"],
