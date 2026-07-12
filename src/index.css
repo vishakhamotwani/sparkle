@@ -61,10 +61,16 @@ body {
 .shell-stage {
   flex: 1;
   min-height: 0;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px 12px;
+}
+
+/* Floating glitter toggle beside the stage — phone screens only. */
+.glitter-fab {
+  display: none;
 }
 
 .stage {
@@ -623,23 +629,37 @@ body {
    two-row grid of essentials (10 colors + rainbow + custom = 6 × 2) instead
    of a horizontal scroller. Tablet and up keep the scrolling row. */
 @media (max-width: 500px) {
-  .swatch,
-  .emoji-button {
-    width: 46px;
-    height: 46px;
+  .swatch {
+    width: 32px;
+    height: 32px;
   }
   .emoji-button {
-    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 12px;
   }
   .shape-button {
-    width: 52px;
-    height: 52px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    padding: 4px;
+  }
+  .swatch.selected,
+  .shape-button.selected,
+  .emoji-button.selected {
+    outline-width: 3px;
+    outline-offset: 1px;
+  }
+  .tray-row {
+    padding: 4px 12px;
+    gap: 8px;
   }
   .tray-colors {
     flex-wrap: wrap;
     justify-content: center;
-    /* Six 46px swatches + gaps + padding: forces an even 6-per-row wrap. */
-    max-width: 360px;
+    /* Six 32px swatches + gaps + padding: forces an even 6-per-row wrap. */
+    max-width: 264px;
     margin: 0 auto;
   }
   .compact-hide,
@@ -655,10 +675,39 @@ body {
     justify-content: start;
     overflow-x: auto;
   }
-  .glitter-button {
-    height: 46px;
-    padding: 0 14px;
-    font-size: 0.9rem;
+  .sticker-hint {
+    font-size: 0.85rem;
+    padding: 6px 14px;
+  }
+  /* Glitter moves out of the tray to a round button beside the stage. */
+  .tray .glitter-button {
+    display: none;
+  }
+  .glitter-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #fff 0%, #ffe3f2 45%, #fff3c4 100%);
+    box-shadow:
+      0 2px 8px rgba(92, 68, 87, 0.25),
+      inset 0 0 8px rgba(255, 255, 255, 0.9);
+    z-index: 5;
+  }
+  .glitter-fab.selected {
+    outline: 3px solid #5c4457;
+    outline-offset: 1px;
+    transform: translateY(-50%) scale(1.1);
+    background: linear-gradient(135deg, #ffe3f2 0%, #ffd1e8 50%, #ffec9e 100%);
   }
 }
 

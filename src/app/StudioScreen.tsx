@@ -176,13 +176,30 @@ export function StudioScreen({ studioId, onBack }: StudioScreenProps) {
           </>
         }
         stage={
-          <Stage
-            studio={studio}
-            design={design}
-            onSlotTap={handleSlotTap}
-            svgRef={svgRef}
-            stickerMode={tool.emoji !== null}
-          />
+          <>
+            <Stage
+              studio={studio}
+              design={design}
+              onSlotTap={handleSlotTap}
+              svgRef={svgRef}
+              stickerMode={tool.emoji !== null}
+            />
+            {/* Phone-only glitter toggle beside the stage; the tray pill
+                takes over on larger screens (CSS swaps them at 500px). */}
+            {studio.glitter && (
+              <button
+                type="button"
+                className={`glitter-fab${tool.glitter ? " selected" : ""}`}
+                aria-label="Glitter"
+                aria-pressed={tool.glitter}
+                onClick={() =>
+                  setTool({ ...tool, glitter: !tool.glitter, emoji: null })
+                }
+              >
+                ✨
+              </button>
+            )}
+          </>
         }
         tray={
           <Tray
