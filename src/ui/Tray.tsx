@@ -55,7 +55,7 @@ export function Tray({ studio, tool, onToolChange, extras = [] }: TrayProps) {
           Tap a round bead to add your sticker
         </div>
       )}
-      <div className="tray-row" role="group" aria-label="Bead shapes">
+      <div className="tray-row tray-shapes" role="group" aria-label="Bead shapes">
         {Object.values(studio.assets)
           .filter((asset) => !asset.fixed)
           .map((asset) => (

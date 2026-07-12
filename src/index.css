@@ -245,12 +245,54 @@ body {
   transform: scale(1.08);
 }
 
-/* Glitter mode toggle: lives at the end of the shapes row, same box as the
-   shape buttons; a warm gradient hints it's sparkle rather than a shape. */
+/* Selection rings extend ~8.5px past each button (4px outline + 2px offset
+   + the 1.08 scale-up), and two neighbors can be active at once (tassel +
+   glitter), so the shapes row needs ~17px+ of clearance between buttons. */
+.tray-shapes {
+  gap: 24px;
+}
+
+/* Glitter mode toggle: ghost style so it reads as a mode, not a shape. */
 .glitter-button {
-  font-size: 28px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 2px dashed #d193b8;
+  background: transparent;
+  color: #5c4457;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.glitter-icon {
+  font-size: 20px;
   line-height: 1;
+}
+
+.glitter-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.glitter-button:active {
+  transform: scale(0.9);
+}
+
+.glitter-button.selected {
+  border-style: solid;
+  border-color: #5c4457;
   background: linear-gradient(135deg, #fff 0%, #ffe3f2 45%, #fff3c4 100%);
+  outline: 4px solid #5c4457;
+  outline-offset: 2px;
+  transform: scale(1.08);
 }
 
 .shape-button {
@@ -626,8 +668,20 @@ body {
     font-size: 0.85rem;
     padding: 6px 14px;
   }
+  .tray-shapes {
+    gap: 14px;
+  }
   .glitter-button {
-    font-size: 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    gap: 0;
+  }
+  .glitter-icon {
+    font-size: 14px;
+  }
+  .glitter-label {
+    font-size: 0.5rem;
   }
 }
 

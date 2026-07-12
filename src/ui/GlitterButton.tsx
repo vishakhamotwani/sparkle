@@ -4,19 +4,21 @@ type GlitterButtonProps = {
 };
 
 /**
- * Sits at the end of the shapes row, styled like a shape option, but
- * toggles glitter mode instead of picking a shape.
+ * Sits at the end of the shapes row but reads as a mode toggle, not a
+ * shape: ghost outline, ✨ icon, and a small label.
  */
 export function GlitterButton({ selected, onToggle }: GlitterButtonProps) {
   return (
     <button
       type="button"
-      className={`shape-button glitter-button${selected ? " selected" : ""}`}
-      aria-label="Glitter"
+      className={`glitter-button${selected ? " selected" : ""}`}
       aria-pressed={selected}
       onClick={onToggle}
     >
-      ✨
+      <span className="glitter-icon" aria-hidden="true">
+        ✨
+      </span>
+      <span className="glitter-label">Glitter</span>
     </button>
   );
 }
