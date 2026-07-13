@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { useState } from "react";
 import { CupcakeScreen } from "../studios/cupcake/CupcakeScreen";
+import { NailScreen } from "../studios/nails/NailScreen";
 import { Home } from "./Home";
 import { StudioScreen } from "./StudioScreen";
 import { allStudios } from "./registry";
@@ -13,6 +14,7 @@ type ScreenProps = { studioId: string; onBack: () => void };
  */
 const SCREENS: Record<string, ComponentType<ScreenProps>> = {
   cupcake: CupcakeScreen,
+  nails: NailScreen,
 };
 
 export default function App() {
